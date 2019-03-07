@@ -1,0 +1,32 @@
+SHELL        = /bin/sh
+CD           = cd
+CP           = cp
+LN_S         = ln -s
+MKDIR        = mkdir
+RM           = /bin/rm -f
+TOUCH        = touch
+ARCH         = Linux_mpich_OpenBLAS
+TOPdir       = $(HOME)/hpl-2.3
+INCdir       = $(TOPdir)/include
+BINdir       = $(TOPdir)/bin/$(ARCH)
+LIBdir       = $(TOPdir)/lib/$(ARCH)
+HPLlib       = $(LIBdir)/libhpl.a
+MPdir        = $(HOME)/mpich3-install
+MPinc        = -I $(MPdir)/include
+MPlib        = $(MPdir)/lib/libmpi.a
+LAdir        = $(HOME)/openblas
+LAinc        = $(LAdir)/include
+LAlib        = -L $(LAdir)/lib -lopenblas -lpthread
+F2CDEFS      = -DAdd_ -DF77_INTEGER=int -DStringSunStyle
+HPL_INCLUDES = -I$(INCdir) -I$(INCdir)/$(ARCH) $(LAinc) $(MPinc)
+HPL_LIBS     = $(HPLlib) $(LAlib) $(MPlib)
+HPL_OPTS     =
+HPL_DEFS     = $(F2CDEFS) $(HPL_OPTS) $(HPL_INCLUDES)
+CC           = mpicc
+CCNOOPT      = $(HPL_DEFS)
+CCFLAGS      = $(HPL_DEFS) -m64 -march=core-avx2 -lm -fomit-frame-pointer -O3 -funroll-loops 
+LINKER       = mpif77
+LINKFLAGS    = -lrt
+ARCHIVER     = ar
+ARFLAGS      = r
+RANLIB       = echo
